@@ -1,0 +1,4 @@
+.env
+.env.example
+.env.test
+node_modules
