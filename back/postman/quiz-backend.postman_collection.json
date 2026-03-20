@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "Quiz Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "token", "value": "" },
+    { "key": "quizId", "value": "" },
+    { "key": "questionId", "value": "" },
+    { "key": "answerId", "value": "" },
+    { "key": "sessionId", "value": "" },
+    { "key": "roomCode", "value": "" },
+    { "key": "playerSessionId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"org@test.com\",\n  \"password\": \"secret123\",\n  \"role\": \"organizer\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/register"
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"org@test.com\",\n  \"password\": \"secret123\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/login"
+      }
+    },
+    {
+      "name": "Create Quiz",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"My Quiz\",\n  \"time_per_question\": 20\n}"
+        },
+        "url": "{{baseUrl}}/quizzes"
+      }
+    },
+    {
+      "name": "Get Quizzes",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/quizzes"
+      }
+    },
+    {
+      "name": "Create Question",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"quizId\": \"{{quizId}}\",\n  \"text\": \"2+2?\",\n  \"type\": \"single\",\n  \"answers\": [\n    { \"text\": \"3\", \"isCorrect\": false },\n    { \"text\": \"4\", \"isCorrect\": true }\n  ]\n}"
+        },
+        "url": "{{baseUrl}}/questions"
+      }
+    },
+    {
+      "name": "Get Quiz Questions",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/quizzes/{{quizId}}/questions"
+      }
+    },
+    {
+      "name": "Create Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"quizId\": \"{{quizId}}\"\n}"
+        },
+        "url": "{{baseUrl}}/sessions/create"
+      }
+    },
+    {
+      "name": "Join Session",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"roomCode\": \"{{roomCode}}\",\n  \"nickname\": \"Player1\"\n}"
+        },
+        "url": "{{baseUrl}}/sessions/join"
+      }
+    },
+    {
+      "name": "Start Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sessionId\": \"{{sessionId}}\"\n}"
+        },
+        "url": "{{baseUrl}}/sessions/start"
+      }
+    },
+    {
+      "name": "Submit Answers",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"playerSessionId\": \"{{playerSessionId}}\",\n  \"questionId\": \"{{questionId}}\",\n  \"answerIds\": [\"{{answerId}}\"]\n}"
+        },
+        "url": "{{baseUrl}}/answers/submit"
+      }
+    },
+    {
+      "name": "Leaderboard",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/sessions/{{sessionId}}/leaderboard"
+      }
+    }
+  ]
+}
